@@ -27,14 +27,6 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.pre(/^find/, function (next) {
-  //   this.populate({
-  //     path: 'tour',
-  //     select: 'name',
-  //   }).populate({
-  //     path: 'user',
-  //     select: 'name photo',
-  //   });
-
   this.populate({
     path: 'user',
     select: 'name photo',
@@ -44,7 +36,6 @@ reviewSchema.pre(/^find/, function (next) {
 
 //? Calculating the ratingsAverage
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
-  //! statics works with Model only
   const stats = await this.aggregate([
     {
       $match: { tour: tourId },
@@ -71,21 +62,13 @@ reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 //? Calculate ratingsAverage
 reviewSchema.post('save', function () {
   //! 'this' here points to DOCUMENT
-  // this.constructor points to the constructor of reviewSchema which is Review
   this.constructor.calcAverageRatings(this.tour);
 });
 
-//? findByIdAndUpdate
-//? findByIdAndDelete
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  //! 'this' here points to query and not DOCUMENT, So we have no access to review document
-  //? We need to save the returned doc to "this" in order to get tourId later
-  //! MongoDB does not allow Twice query, we need to use clone
   this.r = await this.findOne().clone();
   next();
 });
-
-//! REMEMBER: You can not calculate the ratingsAvg since the document is not yet Updated in the DB till now. So we need to use post middleware.
 
 reviewSchema.post(/^findOneAnd/, async function () {
   if (this.r) await this.r.constructor.calcAverageRatings(this.r.tour);

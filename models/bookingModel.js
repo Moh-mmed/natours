@@ -26,7 +26,6 @@ const bookingSchema = new mongoose.Schema({
 });
 
 bookingSchema.pre(/^find/, function (next) {
-  //? We Often request all bookings at once with ADMINISTRATORS, so it's not a performagit nce issue populating user and tour on each Booking
   this.populate('user').populate({
     path: 'tour',
     select: 'name',

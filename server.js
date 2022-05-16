@@ -5,7 +5,6 @@ process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION!');
   console.log(err.name, err.message);
   process.exit(1);
-  //! WE NEED LATER IN THE HOSTING RESTART THE PROCESS (which many platforms do automatically)
 });
 
 dotenv.config({ path: './config.env' });
@@ -32,6 +31,5 @@ process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
   server.close(() => {
     process.exit(1);
-    //! WE NEED LATER IN THE HOSTING RESTART THE PROCESS (which many platforms do automatically)
   });
 });

@@ -1,7 +1,7 @@
 class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
-    this.queryString = queryString; // which is Express query, (req.query)
+    this.queryString = queryString; 
   }
 
   filter() {
@@ -14,7 +14,6 @@ class APIFeatures {
 
     this.query = this.query.find(JSON.parse(queryStr));
 
-    // Return the object to be able to chain the methods
     return this;
   }
 
@@ -23,7 +22,6 @@ class APIFeatures {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
     } else {
-      // add a default sorting
       this.query = this.query.sort('-createdAt');
     }
     return this;

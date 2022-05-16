@@ -2,12 +2,6 @@ const nodemailer = require('nodemailer');
 const pug = require('pug');
 const htmlToText = require('html-to-text');
 
-//? Whenever you want to send an email, import Email class
-//* se you can send email for different scenarios
-// new Email(user, url).sendWelcome()
-// new Email(user, url).resetPassword()
-// new Email(user, url).contact()
-
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.email;
@@ -73,11 +67,3 @@ module.exports = class Email {
     );
   }
 };
-
-//! NOTE
-//* We don't USE Gmail service because it's not a good idea for Production app.
-//* You can only send 500 email per day, and you will be marked as a spammer
-
-//? For production, we use sendGrid or MailGun
-
-//? For development, we use a Mailtrap service which fakes emails to real addresses

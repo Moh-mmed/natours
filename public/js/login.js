@@ -12,7 +12,6 @@ export const login = async (email, password) => {
         password
       }
     });
-
     if (res.data.status === 'success') {
       showAlert('success', 'Logged in successfully!');
       window.setTimeout(() => {
@@ -30,8 +29,6 @@ export const logout = async () => {
       method: 'GET',
       url: '/api/v1/users/logout',
     });
-    // We must reload the page, otherwise there is no logout
-    // Also we must pass true to reload in order the reload the page from the server
     if ((res.data.status = 'success')) location.reload(true);
   } catch (err) {
     console.log(err.response);

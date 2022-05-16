@@ -78,9 +78,6 @@ userSchema.methods.correctPassword = async (candidatePassword, userPassword) =>
   await bcrypt.compare(candidatePassword, userPassword);
 
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
-  //? the idea is to check if the passwordChangedAt exists first, then compare it with the JWTTimestamp (iat).
-  //? return true if JWTTimestamp < passwordChangedAt which means the user logged in then he changed the password so we need to let him log again so it will be JWTTimestamp > passwordChangedAt which returns false.
-
   if (this.passwordChangedAt) {
     const changedAt = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
     return true && JWTTimestamp < changedAt;
@@ -88,21 +85,10 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 
   return false;
 };
-//
-//
-//
-//
-//
-//
-//
-//
+
 userSchema.methods.createPasswordResetToken = function () {
-  //! The password reset token should be a string but it doesn't need to be strong.
-  //! This token is like a reset password allowing the user only to reset his password.
-  //! And we should never store a plain reset token string to DB
   const resetToken = crypto.randomBytes(32).toString('hex');
 
-  //? We need to encrypt the token and store it to DB temporary so we can compare to it later.
   this.passwordResetToken = crypto
     .createHash('sha256')
     .update(resetToken)
@@ -112,14 +98,6 @@ userSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
-//
-//
-//
-//
-//
-//
-//
-//
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
