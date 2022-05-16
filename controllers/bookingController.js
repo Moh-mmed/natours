@@ -39,11 +39,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 //? Create booking checkout in the DB
 const createBookingCheckout = async (session) => {
-  console.log('WEIIIIIIIRD');
-  // const tour = session.client_reference_id;
-  // const user = (await User.findOne({ email: session.customer_email })).id;
-  // const price = session.display_items[3] / 1000;
-  // await Booking.create({ tour, user, price });
+  const tour = session.client_reference_id;
+  const user = (await User.findOne({ email: session.customer_email })).id;
+  const price = session.display_items[0] / 1000;
+  await Booking.create({ tour, user, price });
 };
 exports.webhookCheckout = (req, res, next) => {
   const sig = req.headers['stripe-signature'];
