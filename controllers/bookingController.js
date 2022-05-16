@@ -21,7 +21,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         name: `${tour.name} Tour`,
         description: tour.summary,
         images: [
-          `https://d33wubrfki0l68.cloudfront.net/6ef00cc22127…a3f5c7659be730274/340a8/assets/img/portfolio3.png`,
+          `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`,
         ],
         amount: tour.price * 100,
         currency: 'usd',
@@ -41,7 +41,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 const createBookingCheckout = async (session) => {
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email })).id;
-  const price = session.line_items[3] / 1000;
+  const price = session.display_items[3] / 1000;
   await Booking.create({ tour, user, price });
 };
 exports.webhookCheckout = (req, res, next) => {
@@ -60,7 +60,7 @@ exports.webhookCheckout = (req, res, next) => {
     return;
   }
 
-  if (event.type === 'checkout.session.complete')
+  if (event.type === 'checkout.session.completed')
     createBookingCheckout(event.data.object);
 
   // Return a 200 response to acknowledge receipt of the event
