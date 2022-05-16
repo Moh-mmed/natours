@@ -32,6 +32,9 @@ app.use(cors());
 
 app.options('*', cors());
 
+//* Serving Static Files
+app.use(express.static(path.join(__dirname, 'public')));
+
 //* Set security HTTP headers
 app.use(helmet());
 //* Development logging
@@ -72,9 +75,6 @@ app.use(
     ],
   })
 );
-
-//* Serving Static Files
-app.use(express.static(path.join(__dirname, 'public')));
 
 //* Compress all the texts that is sent to the client
 app.use(compression());
