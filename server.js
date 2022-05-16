@@ -20,7 +20,7 @@ mongoose.connect(DB).then(() => {
   console.log('DB Connected Successfully!');
 });
 
-// Listening to the server
+// Listening to the server, (heroku needs process.env.PORT)
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
   console.log('Listening on port 8080');
