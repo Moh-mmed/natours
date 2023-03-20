@@ -1357,3 +1357,15 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+.signup_link {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.signup_link a {
+  margin-left: 6px;
+  text-decoration: none;
+  color: #05c97a
+}
